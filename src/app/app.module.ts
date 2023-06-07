@@ -10,6 +10,24 @@ import { TodoFormComponent } from './components/todo-form/todo-form.component';
 import { FilterActivePipe } from './pipes/filter-active.pipe';
 import { MessageComponent } from './components/message/message.component';
 import { TodosPageComponent } from './pages/todo-page/todo-page.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AboutPageComponent } from './about/about-page/about-page.component';
+
+const routes: Routes = [
+  {
+    path: 'todos', component: TodosPageComponent,
+  },
+  {
+    path: 'about',
+    loadChildren: () => {
+      return import('./about/about.module')
+      .then(m => m.AboutModule)
+    },
+  },
+  {
+    path: '**', redirectTo: '/todos', pathMatch: 'full',
+  },
+];
 
 @NgModule({
   declarations: [
@@ -22,10 +40,11 @@ import { TodosPageComponent } from './pages/todo-page/todo-page.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
